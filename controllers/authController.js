@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import userModel from "../models/usermodels.js";
 import transporter from "../config/nodemailer.js"; // now uses SendGrid
 
-// ✅ REGISTER
+// REGISTER
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
@@ -31,15 +31,15 @@ export const register = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // ✅ Send Welcome Email via SendGrid
+    //  Send Welcome Email via SendGrid
     const mailOptions = {
       from: process.env.SENDER_EMAIL,
       to: email,
-      subject: "Welcome to Food Recommendation System 🍽️",
+      subject: "Welcome to Food Recommendation System ",
       html: `
         <h2>Welcome, ${name}!</h2>
         <p>Your account has been created successfully using: <b>${email}</b>.</p>
-        <p>Start exploring personalized food recommendations now! 🍕🍱</p>
+        <p>Start exploring personalized food recommendations now! </p>
       `,
     };
 
@@ -51,7 +51,7 @@ export const register = async (req, res) => {
   }
 };
 
-// ✅ LOGIN
+//  LOGIN
 export const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -86,7 +86,7 @@ export const login = async (req, res) => {
   }
 };
 
-// ✅ LOGOUT
+//  LOGOUT
 export const logout = async (req, res) => {
   try {
     res.clearCookie("token", {
@@ -100,7 +100,7 @@ export const logout = async (req, res) => {
   }
 };
 
-// ✅ SEND ACCOUNT VERIFICATION OTP
+//  SEND ACCOUNT VERIFICATION OTP
 export const sendVerifyOtp = async (req, res) => {
   try {
     const userId = req.userId;
@@ -134,7 +134,7 @@ export const sendVerifyOtp = async (req, res) => {
   }
 };
 
-// ✅ VERIFY EMAIL
+//  VERIFY EMAIL
 export const verifyEmail = async (req, res) => {
   try {
     const { otp } = req.body;
@@ -166,7 +166,7 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-// ✅ RESEND OTP
+//  RESEND OTP
 export const resendVerifyOtp = async (req, res) => {
   try {
     const userId = req.userId;
@@ -195,7 +195,7 @@ export const resendVerifyOtp = async (req, res) => {
   }
 };
 
-// ✅ SEND PASSWORD RESET OTP
+// SEND PASSWORD RESET OTP
 export const sendResetOtp = async (req, res) => {
   const { email } = req.body;
   if (!email) return res.json({ success: false, message: "Email is required" });
@@ -227,7 +227,7 @@ export const sendResetOtp = async (req, res) => {
   }
 };
 
-// ✅ RESET PASSWORD
+// RESET PASSWORD
 export const resetPassword = async (req, res) => {
   const { email, otp, password } = req.body;
 
@@ -256,5 +256,20 @@ export const resetPassword = async (req, res) => {
     return res.json({ success: true, message: "Password reset successfully" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
+  }
+};
+
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await userModel.find({}, "-password -verifyOtp -resetOtp"); 
+
+    res.json({
+      success: true,
+      count: users.length,
+      users,
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
   }
 };

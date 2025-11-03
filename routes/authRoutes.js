@@ -1,6 +1,7 @@
 import express from "express";
-import { register, login, logout, sendVerifyOtp, verifyEmail , resendVerifyOtp,sendResetOtp, resetPassword} from "../controllers/authController.js";
+import { register, login, logout, sendVerifyOtp, verifyEmail , resendVerifyOtp,sendResetOtp, resetPassword, getAllUsers} from "../controllers/authController.js";
 import userAuth from "../middleware/usermiddle.js";
+
 
 const router = express.Router();
 
@@ -12,6 +13,7 @@ router.post("/verifyaccount", userAuth, verifyEmail);
 router.post("/resendverifyotp", userAuth, resendVerifyOtp);
 router.post("/sendResetOtp", sendResetOtp);
 router.post("/resetPassword", resetPassword);
+router.get("/alluserdata", getAllUsers);
 
 
 export default router;

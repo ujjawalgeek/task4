@@ -13,12 +13,12 @@ const importData = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("✅ MongoDB connected");
 
-    // ✅ Filter correctly based on your actual field
+    //  Filter correctly based on your actual field
     const validData = jsonData.filter(item => item.recipe_name && item.recipe_name.trim() !== "");
 
-    console.log(`🧾 Found ${jsonData.length} records, importing ${validData.length} valid recipes...`);
+    console.log(` Found ${jsonData.length} records, importing ${validData.length} valid recipes...`);
 
-    await Recipe.deleteMany(); // optional
+    await Recipe.deleteMany();
     await Recipe.insertMany(validData, { ordered: false });
 
     console.log(`Successfully imported ${validData.length} recipes`);
