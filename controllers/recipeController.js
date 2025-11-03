@@ -1,6 +1,6 @@
 import Recipe from "../models/recipeModel.js";
 
-// ✅ Return all recipes as an array of objects
+//  Return all recipes as an array of objects
 export const getAllRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.find({}).lean(); // use lean() for plain JS objects
