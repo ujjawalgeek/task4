@@ -1,11 +1,15 @@
 import Recipe from "../models/recipeModel.js";
 
-//  Return all recipes as an array of objects
+//  Get all recipes
 export const getAllRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.find({}).lean(); 
-    res.json(recipes); 
+    res.status(200).json({
+      success: true,
+      count: recipes.length,
+      data: recipes,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };

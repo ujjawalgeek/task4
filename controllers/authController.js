@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/usermodels.js";
-import transporter from "../config/nodemailer.js"; // now uses SendGrid
+import transporter from "../config/nodemailer.js"; 
+import passwordSchema from "../utils/passwordvalidator.js";
 
 // REGISTER
 export const register = async (req, res) => {
@@ -9,7 +10,13 @@ export const register = async (req, res) => {
   if (!name || !email || !password) {
     return res.json({ success: false, message: "Missing details" });
   }
-
+if (!passwordSchema.validate(password)) {
+    return res.json({
+      success: false,
+      message:
+        "Password must be 8–20 characters long, include uppercase, lowercase, number, and special character, and contain no spaces.",
+    });
+  }
   try {
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
@@ -234,6 +241,14 @@ export const resetPassword = async (req, res) => {
   if (!email || !otp || !password) {
     return res.json({ success: false, message: "Email, OTP, and password are required" });
   }
+  if (!passwordSchema.validate(password)) {
+  return res.json({
+    success: false,
+    message:
+      "Password must be 8–20 characters long, include uppercase, lowercase, number, and special character, and contain no spaces.",
+  });
+}
+
 
   try {
     const user = await userModel.findOne({ email });
