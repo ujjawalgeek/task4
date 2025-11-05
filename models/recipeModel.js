@@ -14,7 +14,7 @@ const recipeSchema = new mongoose.Schema(
     cholesterol: { type: Number },
     sodium: { type: Number },
     fiber: { type: Number },
-    ingredients_list: { type: String }, // stored as a string in your dataset
+    ingredients_list: { type: String }, 
     veg_nonveg: { type: String },
     cuisine_type: { type: String },
     region_type: { type: String },

@@ -29,6 +29,9 @@ app.use(
 app.get("/", (req, res) => {
   res.send(" API is working!");
 });
+app.get("/", (req, res) => {
+  res.send(" Food Recommendation Backend is running!");
+});
 
 // API Routes
 app.use("/api/auth", authRoutes);
